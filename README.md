@@ -29,7 +29,7 @@
 
 全局搜索  Your copy of AirBuddy is not activate
 
-注意看，这些文件是一个framework和一个xpc文件中存在的。xpc就不多说了，就没有意义。我们直接重点关注 AirCore.framework文件。
+注意看，这些文件是一个 framework 和一个 xpc 文件中存在的。xpc 就不多说了，就没有意义。我们直接重点关注 AirCore.framework 文件。
 
 ```
 /Applications/AirBuddy.app/Contents/Library/LoginItems/AirBuddyHelper.app/Contents/Frameworks/AirCore.framework/Versions/A/Resources/en.lproj/Localizable.strings
@@ -41,7 +41,7 @@
 
 "LICENSE_STATE_NOT_ACTIVATED" = "Your copy of AirBuddy is not activated.";
 
-可以看到字符串引用key就是“LICENSE_STATE_NOT_ACTIVATED”。
+可以看到字符串引用key就是 “LICENSE_STATE_NOT_ACTIVATED”。
 我们直接在 IDA|HOPPER 中打开 AirCore 搜索：
 
 ![1](pic/4.png)
@@ -68,7 +68,7 @@
 ![1](pic/7.png)
 
 
-我们到Exports里面复制一部分的文字搜索，果然。
+我们到 Exports 里面复制一部分的文字搜索，果然。
 那么问题来了，哪里引用了呢？
 
 我们直接搜主程序试试：
@@ -121,8 +121,8 @@ watch : frida-compile index.ts -o _index.js -w
 build 是编译，-w是监视文件修改自动编译。
 我们执行 watch 的指令即可自动编译了。
 
-准备工作完成，那么我们开始hook函数 __int64 __usercall sub_100050480@<rax>(__int64 a1@<r13>)看看:  
-我们把可执行文件的名称写在参数1中，这样就会自动锁定内存里这个同名进程进行注入。
+准备工作完成，那么我们开始hook函数 __int64 __usercall sub_100050480@<rax>(__int64 a1@<r13>) 看看:  
+我们把可执行文件的名称写在 参数1 中，这样就会自动锁定内存里这个同名进程进行注入。
 然后我们获取这个指针所在的地址，开始进入函数的挂钩：
 ```javascript
 
@@ -149,11 +149,11 @@ r13  + 153 指向的地址成功被修改, 并且注册成功了
 
 ## 4. 用 dylib 代码注入 hook
 
-注入我用的是rd_route劫持库.
+注入我用的是 rd_route 劫持库.
 
 
 
-毕竟不能靠Frida先启动然后再启动app，这并不酷，也不符合我对高科技的想象。
+毕竟不能靠 Frida 先启动然后再启动 app，这并不酷，也不符合我对高科技的想象。
 
 用 AppCode 或者 XCode 新建项目:
 
@@ -217,9 +217,9 @@ int (*_0x100050480Ori)();
 ```
 定义原函数返回值int 无参数 加上 取该变量内存地址里的值以被下面挂钩函数赋新值： 
 rd_route((void *) _0x100050480, _0x100050480New, (void ) &_0x100050480Ori);  
-(void ) &_0x100050480Ori这里用(void *)进行类型转换，&取地址符传递地址进函数。 
-然后 _0x100050480Ori 保存的就是原函数地址了，注意如果不写“ * ”你会得到_0x100050480Ori的内存地址而不是这个内存地址里面的值。   
-然后使用经典的 mov 指令在函数进入时将寄存器的值赋予0，并恢复原函数执行，这样原函数读到的就是新的 r13 寄存器里的这个 0 值啦！
+(void ) &_0x100050480Ori 这里用 (void *) 进行类型转换，&取地址符传递地址进函数。 
+然后 _0x100050480Ori 保存的就是原函数地址了，注意如果不写“ * ”你会得到 _0x100050480Ori 的内存地址而不是这个内存地址里面的值。   
+然后使用经典的 mov 指令在函数进入时将寄存器的值赋予 0，并恢复原函数执行，这样原函数读到的就是新的 r13 寄存器里的这个 0 值啦！
 ```asm
 __asm
     {   
@@ -236,7 +236,7 @@ __asm
 为啥 用 insert_dylib 注入 lib 的时候 , 注入的 LetsMove.app 啊??
 
 
-因为我们想修改内存的是主程序二进制文件，所以我们千万不要注入任何影响到偏移地址有关的文件，如AirCore和AirBuddy二进制文件，为什么呢？因为这样会造成文件偏移错误。我们的偏移地址是根据IDA读出的原始二进制来算的，如果你注入了这些文件地址就会发生移位，这就无法通过原地址进行正确的注入了。所以我挑了个好欺负的小文件。也别去注入几MB的大文件，手动来回复制文件很麻烦的。
+因为我们想修改内存的是主程序二进制文件，所以我们千万不要注入任何影响到偏移地址有关的文件，如 AirCore 和 AirBuddy 二进制文件，为什么呢？因为这样会造成文件偏移错误。我们的偏移地址是根据IDA读出的原始二进制来算的，如果你注入了这些文件地址就会发生移位，这就无法通过原地址进行正确的注入了。所以我挑了个好欺负的小文件。也别去注入几MB的大文件，手动来回复制文件很麻烦的。
 
 注意: 生成的 libInlineInjectPlugin 文件位置确定后,不要删除,否则注入的程序启动会失败
 ```shell
