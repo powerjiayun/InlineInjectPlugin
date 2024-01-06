@@ -1,4 +1,4 @@
-## 1. 安装破解需要的的软件
+## 1. 环境准备
 -  ida | hopper
 - python3 & frida
   pip3 uninstall frida
@@ -102,7 +102,8 @@ __stubs:00000001000A1F78                 jmp     cs:_$sSS7AirCoreE24locLicenseSt
 ![1](pic/11.png)
 
 打开流程图, 可以看到, 如果执行 104 行的话, 最后会执行 sub_100017DF0 来返回函数返回值.
-## 3. 用 frida 测试 hook
+
+## 3. 用 frida 调试 hook
 
 python 文件新建，写入 (hook_main.py)
 
@@ -255,3 +256,15 @@ sudo $dylib $target_dll $target_bin $out_bin
 ```
 ![1](pic/15.png)
 
+## Ref
+- 2024, [MacOS逆向] AirBuddy2 2.6.3 的dylib注入方案 (2) , https://www.52pojie.cn/thread-1739112-1-1.html
+- 2023, Search Engine By Google.
+- 2023, Bing Global Search Engine By Microsoft.
+- 2023, MacOS动态注入的三种方式及hook方案, https://blog.csdn.net/tangsilian/article/details/89442802
+- 2023, macOS 逆向從入門到破解 Frida + Hopper + dylib 注入, https://beeeeemo.dev/2021/08/macos-%E9%80%86%E5%90%91%E5%BE%9E%E5%85%A5%E9%96%80%E5%88%B0%E7%A0%B4%E8%A7%A3-frida-hopper-dylib-%E6%B3%A8%E5%85%A5/
+- 2023, 404 WebSite by code-examples.net, https://code-examples.net/zh-CN/q/204273
+- 2023, JianShu by https://www.jianshu.com/p/3c8a9a6cee8d
+- 2023, 404 WebSite by https://github.com/rodionovd/rd_route
+- 2023, 使用Frida优雅调试010 Editor https://www.chinapyg.com/thread-134972-1-1.html
+- 2023，Objective-C的hook方案（一）: Method Swizzling by https://blog.csdn.net/yiyaaixuexi/article/details/9374411
+- 2023，运行时注入方式破解最新Mac版010 Editor v9.0.1  https://www.52pojie.cn/forum.php?mod=viewthread&tid=861809&extra=page%3D1%26filter%3Dtypeid%26typeid%3D377 
