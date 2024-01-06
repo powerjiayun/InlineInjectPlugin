@@ -11,6 +11,7 @@
 	https://github.com/tyilo/insert_dylib
 
 - rd_route 劫持库
+![Uploading image.png…]()
 
 	https://github.com/rodionovd/rd_route
 
@@ -239,6 +240,8 @@ __asm
 
 
 因为我们想修改内存的是主程序二进制文件，所以我们千万不要注入任何影响到偏移地址有关的文件，如AirCore和AirBuddy二进制文件，为什么呢？因为这样会造成文件偏移错误。我们的偏移地址是根据IDA读出的原始二进制来算的，如果你注入了这些文件地址就会发生移位，这就无法通过原地址进行正确的注入了。所以我挑了个好欺负的小文件。也别去注入几MB的大文件，手动来回复制文件很麻烦的。
+
+注意: 生成的 libInlineInjectPlugin 文件位置确定后,不要删除,否则注入的程序启动会失败
 ```shell
 
 sudo insert_dylib <dylib库文件路径> <目标文件路径> <写出的新文件路径>
