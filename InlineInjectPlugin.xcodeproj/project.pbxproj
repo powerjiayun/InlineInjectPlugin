@@ -36,11 +36,47 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6B2E1099808085B3FBD56F6E /* 8c */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = 8c;
+			path = .git/objects/8c;
+			sourceTree = "<group>";
+		};
+		6B2E1734188B0B80AAF0FC76 /* ec */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = ec;
+			path = .git/objects/ec;
+			sourceTree = "<group>";
+		};
+		6B2E17930845C2A74B53872F /* 43 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = 43;
+			path = .git/objects/43;
+			sourceTree = "<group>";
+		};
+		6B2E1C787707A06E180CA0B2 /* xcschemes */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = xcschemes;
+			path = InlineInjectPlugin.xcodeproj/project.xcworkspace/xcuserdata/voidm.xcuserdatad/xcschemes;
+			sourceTree = "<group>";
+		};
 		B5AA26D32B49AE8D00C3E887 = {
 			isa = PBXGroup;
 			children = (
 				B5AA26DE2B49AE8D00C3E887 /* InlineInjectPlugin */,
 				B5AA26DD2B49AE8D00C3E887 /* Products */,
+				6B2E1C787707A06E180CA0B2 /* xcschemes */,
+				6B2E17930845C2A74B53872F /* 43 */,
+				6B2E1099808085B3FBD56F6E /* 8c */,
+				6B2E1734188B0B80AAF0FC76 /* ec */,
 			);
 			sourceTree = "<group>";
 		};

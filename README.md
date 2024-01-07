@@ -247,8 +247,8 @@ __asm
 注意: 生成的 libInlineInjectPlugin 文件位置确定后,不要删除,否则注入的程序启动会失败
 ```shell
 
-sudo insert_dylib <dylib库文件路径> <目标文件路径> <写出的新文件路径>
-
+Usage: insert_dylib dylib_path binary_path [new_binary_path]
+Option flags: --inplace --weak --overwrite --strip-codesig --no-strip-codesig --all-yes
 
 dylib="/Users/voidm/Downloads/insert_dylib"
 target_dll="/Users/voidm/Library/Developer/Xcode/DerivedData/InlineInjectPlugin-gkfcehaqmflzmaewkaqxbqdjwhdv/Build/Products/Debug/libInlineInjectPlugin.dylib"
@@ -263,19 +263,9 @@ sudo $dylib $target_dll $target_bin $out_bin
 ![1](pic/15.png)
 
 
-同样是 hook,
-为啥 frida hook 是手动获取模块基址 ，然后 + 函数偏移 0x50480,
-而 dyld_insert_libraries 注入是直接写死的函数地址 0x100050480 ?
-
-因为 Frida 和 dyld_insert_libraries 注入方法在处理动态链接库（.dylib 或 .so）中的函数地址时，方式有所不同，这主要是由于它们的注入机制和工作原理有所区别。
-
-Frida Hook： Frida 是一个动态代码插桩工具，它通过 JavaScript API 与运行时的应用程序进行交互。在 Frida 中，我们需要手动获取模块基址的原因是它允许你在运行时动态地分析和修改目标进程的行为。iOS 或 macOS 系统中，动态库加载后其基址并非固定不变，每次进程启动时可能不同，因此需要首先通过 Module.findBaseAddress 或其他手段获取到模块的实际内存基址，然后加上函数在该模块内部的偏移量得到实际函数地址来执行 hook。
-
-dyld_insert_libraries 注入： dyld (dynamic linker) 是 macOS/iOS 中用于加载 Mach-O 可执行文件和动态库的系统组件。dyld_insert_libraries 是一种预加载库的注入方式，它可以在可执行文件启动时自动加载指定的动态库，并调用其中的特定函数。这种方式下，我们直接写死函数地址是因为在编译链接阶段，动态库内部函数的虚拟内存地址就已经确定并存储在可执行文件的符号表中。当系统使用 dyld 加载动态库时，会按照固定的加载规则将其映射到进程的地址空间，所以可以预先知道函数的具体地址。
-
-总结来说，Frida 的灵活性在于它可以应对运行时不确定的情况，而 dyld_insert_libraries 注入适用于编译链接阶段就已知地址的情况。
 
 ## 5. Ref
+- 2024, macOS-InjectPluginCode, https://github.com/QiuChenlyOpenSource/macOS-InjectPluginCode
 - 2024, [MacOS逆向] AirBuddy2 2.6.3 的dylib注入方案 (2) , https://www.52pojie.cn/thread-1739112-1-1.html
 - 2023, Search Engine By Google.
 - 2023, Bing Global Search Engine By Microsoft.

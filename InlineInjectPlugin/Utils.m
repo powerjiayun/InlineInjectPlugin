@@ -254,11 +254,15 @@ void initBaseEnv() {
 void enumerateModules(void) {
     uint32_t size = _dyld_image_count();//获取所有加载的映像
     NSLog(@"==== 加载的映像数量: %i",size);
-    for(int a=0;a<size;a++){
-        const char* name = _dyld_get_image_name(a);//根据映像下标取名称
-        NSLog(@"==== Slide: %i,ModuleName: %s",a,name);
+    for(int i=0;i<size;i++){
+        const char* imageName = _dyld_get_image_name(i);//根据映像下标取名称
+        const struct mach_header *mh = _dyld_get_image_header(i);
+        intptr_t vmaddr_slide = _dyld_get_image_vmaddr_slide(i);
 
-        if(strcmp("/Applications/xxx.app/xxxdylib", name)==0){
+        NSLog(@"==== Image name %s at address 0x%llx and ASLR slide 0x%lx.",imageName,(mach_vm_address_t)mh, vmaddr_slide);
+
+
+        if(strcmp("/Applications/xxx.app/xxxdylib", imageName)==0){
             NSLog(@"==== find xxxx");
             //class_getClassMethod这里不能用Instance 会返回nil 从gpt回复中可以看出类的实例不代表类函数 所以一般应该用getClassMethod就不会报错nil
             // 下面是ChatGPT的回答
