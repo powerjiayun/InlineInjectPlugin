@@ -48,7 +48,6 @@ void AirBuddy(){
 + (void) load {
     NSString *appName = [[NSBundle mainBundle] bundleIdentifier];
     const char *myAppBundleName = [appName UTF8String];
-    NSLog(@"=== AppName is %s.",myAppBundleName);
     
     NSAlert *alert = [[NSAlert alloc] init];
         [alert setMessageText:@"确认执行破解操作吗？"];

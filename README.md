@@ -93,8 +93,8 @@
 在这个函数的入口中，a1 所在的 r13 寄存器对内存 +153 的偏移处进行判断 (hopper 显示的 十六 进制  +0x99)，
 如果不等于 1 那么执行这里的 A1F78 函数（104行），否则执行刚刚找到的 NotActivated。
 
-```asm
-__stubs:00000001000A1F78                 jmp     cs:_$sSS7AirCoreE24locLicenseStateActivatedSSvau_ptr
+```
+__stubs:00000001000A1F78 jmp cs:_$sSS7AirCoreE24locLicenseStateActivatedSSvau_ptr
 ```
 
 ![1](pic/11.png)
@@ -187,8 +187,7 @@ UI 控件库是注入 CleanMyMac 的，可以不写。
 
 
 直接写内联汇编啊铁子！（突然激动
-我们首先屏蔽掉 activate 函数，这没用。
-
+s
 
 ```c
 void AirBuddy(){
