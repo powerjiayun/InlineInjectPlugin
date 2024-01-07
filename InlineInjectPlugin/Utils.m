@@ -250,11 +250,43 @@ void initBaseEnv() {
     NSLog(@"==== AppName is [%s],Version is [%s], myAppCFBundleVersion is [%s].", myAppBundleName, myAppBundleVersionCode, myAppCFBundleVersion);
 }
 
+
+void enumerateModules(void) {
+    uint32_t size = _dyld_image_count();//获取所有加载的映像
+    NSLog(@"==== 加载的映像数量: %i",size);
+    for(int a=0;a<size;a++){
+        const char* name = _dyld_get_image_name(a);//根据映像下标取名称
+        NSLog(@"==== Slide: %i,ModuleName: %s",a,name);
+
+        if(strcmp("/Applications/xxx.app/xxxdylib", name)==0){
+            NSLog(@"==== find xxxx");
+            //class_getClassMethod这里不能用Instance 会返回nil 从gpt回复中可以看出类的实例不代表类函数 所以一般应该用getClassMethod就不会报错nil
+            // 下面是ChatGPT的回答
+            /**
+             可以这样理解：
+
+             在Objective-C中，方法是通过消息传递来调用的。当我们调用一个方法时，实际上是向对象发送了一个消息，让它去执行对应的方法。因此，我们需要知道方法的名称和参数类型，才能正确地发送消息。
+
+             在获取方法的时候，我们需要使用Method对象来表示方法。Method对象包含了方法的名称、参数类型、返回值类型等信息，可以用来发送消息。
+
+             class_getInstanceMethod和class_getClassMethod就是用来获取Method对象的函数。它们的区别在于，class_getInstanceMethod用于获取实例方法，即针对对象的方法；而class_getClassMethod用于获取类方法，即针对类的方法。
+
+             举个例子，假设我们有一个Person类，它有一个实例方法run和一个类方法eat。如果我们要获取run方法的Method对象，可以使用class_getInstanceMethod(Person.class, @selector(run))；如果要获取eat方法的Method对象，可以使用class_getClassMethod(Person.class, @selector(eat))。
+
+             需要注意的是，类方法是属于类的，而不是属于类的实例。因此，如果要获取类方法的Method对象，需要使用类对象而不是实例对象。例如，对于类Person，可以使用[Person class]获取它的类对象，然后再使用class_getClassMethod获取类方法的Method对象。
+             */
+             //switchMethod(getMethodStrByCls(@"AppStoreReceiptValidation",@"validate"), getMethod([InlineInjectPlugin class], @selector(validate)));
+            continue;
+        }
+    }
+}
+
 /**
  * 自动加载主函数
  */
 + (void)load {
     initBaseEnv();
+    enumerateModules();
 }
 
 @end
