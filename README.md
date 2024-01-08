@@ -3,9 +3,9 @@
 ## 1. 环境准备
 -  ida | hopper
 - python3 & frida  
-  pip3 uninstall frida
-  pip3 uninstall frida-tools
-  pip3 install frida  -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+  pip3 uninstall frida  
+  pip3 uninstall frida-tools  
+  pip3 install frida  -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com  
   pip3 install frida-tools -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
 - dylib 注入工具
 	https://github.com/tyilo/insert_dylib
